@@ -26,7 +26,9 @@ func main() {
 
 	r := mux.NewRouter().StrictSlash(true)
 	r.Use(mux.CORSMethodMiddleware(r))
-	r.HandleFunc("/{provider}", app.HandleRequest).Methods("GET")
+	apiV1Router := r.PathPrefix("/api/v1").Subrouter()
+
+	apiV1Router.HandleFunc("/{provider}", app.HandleRequest).Methods("GET")
 
 	srv := &http.Server{
         Addr:         *listenAddr,

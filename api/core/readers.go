@@ -1,5 +1,11 @@
 package core
 
-var ReaderMap = map[string]Reader{
-	"abc": true,
+
+func GetReaderFromProviderString(provider string) Reader{
+	switch provider {
+    case "mock":
+        return &MockReader{}
+	default:
+		return nil
+    }
 }
