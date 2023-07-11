@@ -1,10 +1,16 @@
 package core
 
 
-func GetReaderFromProviderString(provider string) Reader{
+func GetReaderFromProviderString(provider string, initArgs any) Reader{
+	initArgsMap, ok := initArgs.(map[string]interface{})
+	
+	if !ok {
+		return nil
+	}
+
 	switch provider {
     case "mock":
-        return &MockReader{}
+        return &MockReader{initArgsMap}
 	default:
 		return nil
     }

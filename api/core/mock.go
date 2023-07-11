@@ -1,8 +1,12 @@
 package core
 
-import "time"
+import (
+	"time"
+)
 
-type MockReader struct{}
+type MockReader struct{
+	initArgs map[string]any
+}
 
 func (m *MockReader) FetchData() []Record {
 	return []Record{
