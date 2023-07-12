@@ -10,7 +10,7 @@ type Record struct {
 }
 
 type Reader interface {
-	FetchData() []Record
+	FetchData() map[string][]Record
 }
 
 func GetReaderFromProviderString(provider string, initArgs any) (Reader, error) {
