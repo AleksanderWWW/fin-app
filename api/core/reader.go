@@ -24,32 +24,7 @@ func GetReaderFromProviderString(provider string, initArgs any) (Reader, error) 
 		return &MockReader{initArgsMap}, nil
 
 	case "stooq":
-		symbols, ok := initArgsMap["symbols"].([]interface{})
-		if !ok {
-			return nil, fmt.Errorf("Missing or malformed param: 'symbols'")
-		}
-
-		startDate, ok := initArgsMap["startDate"].(string)
-		if !ok {
-			return nil, fmt.Errorf("Missing or malformed param: 'startDate'")
-		}
-
-		endDate, ok := initArgsMap["endDate"].(string)
-		if !ok {
-			return nil, fmt.Errorf("Missing or malformed param: 'endDate'")
-		}
-		freq, ok := initArgsMap["freq"].(string)
-
-		if !ok {
-			freq = "d"
-		}
-
-		return &StooqDataReader{
-			symbols: symbols,
-			startDate: startDate,
-			endDate: endDate,
-			freq: freq,
-		}, nil
+		return NewStooqReader(initArgsMap)
 
 	default:
 		return nil, fmt.Errorf("Invalid data provider - '%s'", provider)
