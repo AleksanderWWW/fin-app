@@ -42,6 +42,7 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 	records, err := reader.FetchData()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	// -------------------------------------------------------------------------
