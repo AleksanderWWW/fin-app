@@ -2,18 +2,18 @@ package app
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/AleksanderWWW/fin-app/core"
 	"github.com/gorilla/mux"
 )
 
-
 func HandleRequest(w http.ResponseWriter, r *http.Request) {
-	provider := mux.Vars(r)["provider"]
+	w.Header().Set("Content-Type", "application/json")
 
-	
+	// -------------------------------------------------------------------------
+	// Parse request
+	provider := mux.Vars(r)["provider"]
 
 	var initArgs interface{}
 	err := json.NewDecoder(r.Body).Decode(&initArgs)
@@ -22,23 +22,27 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	reader := core.GetReaderFromProviderString(provider, initArgs)
-	
+	// -------------------------------------------------------------------------
+	// Get correct data reader
 
+	reader, err := core.GetReaderFromProviderString(provider, initArgs)
+
+	// -------------------------------------------------------------------------
+	// Prepare response encoder
 	encoder := json.NewEncoder(w)
 	encoder.SetIndent("", "    ") // Indentation of 4 spaces
-	
-	if reader == nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		msg := fmt.Sprintf("Invalid data provider - '%s'", provider)
-		err := encoder.Encode(msg)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	// -------------------------------------------------------------------------
+	// Fetch financial data
 	records := reader.FetchData()
+
+	// -------------------------------------------------------------------------
+	// Respond with results
 	err = encoder.Encode(records)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
