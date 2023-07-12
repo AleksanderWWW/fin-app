@@ -39,7 +39,10 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 
 	// -------------------------------------------------------------------------
 	// Fetch financial data
-	records := reader.FetchData()
+	records, err := reader.FetchData()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 
 	// -------------------------------------------------------------------------
 	// Respond with results

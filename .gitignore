@@ -19,3 +19,6 @@
 
 # Go workspace file
 go.work
+
+# .py files used to test handlers
+*.py
