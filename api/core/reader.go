@@ -26,17 +26,17 @@ func GetReaderFromProviderString(provider string, initArgs any) (Reader, error) 
 	case "stooq":
 		symbols, ok := initArgsMap["symbols"].([]interface{})
 		if !ok {
-			return nil, fmt.Errorf("Missing param: 'symbols'")
+			return nil, fmt.Errorf("Missing or malformed param: 'symbols'")
 		}
 
 		startDate, ok := initArgsMap["startDate"].(string)
 		if !ok {
-			return nil, fmt.Errorf("Missing param: 'startDate'")
+			return nil, fmt.Errorf("Missing or malformed param: 'startDate'")
 		}
 
 		endDate, ok := initArgsMap["endDate"].(string)
 		if !ok {
-			return nil, fmt.Errorf("Missing param: 'endDate'")
+			return nil, fmt.Errorf("Missing or malformed param: 'endDate'")
 		}
 		freq, ok := initArgsMap["freq"].(string)
 
