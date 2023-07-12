@@ -1,8 +1,6 @@
 package core
 
-
 import "time"
-
 
 type StooqDataReader struct {
 	symbols   []string
