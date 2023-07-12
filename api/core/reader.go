@@ -3,9 +3,9 @@ package core
 import "fmt"
 
 type Record struct {
-	Date  string `json:"date"`
-	Open  float32   `json:"open"`
-	Close float32   `json:"close"`
+	Date  string  `json:"date"`
+	Open  float32 `json:"open"`
+	Close float32 `json:"close"`
 }
 
 type Reader interface {

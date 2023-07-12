@@ -9,7 +9,7 @@ type MockReader struct {
 }
 
 func (m *MockReader) FetchData() (map[string][]Record, error) {
-	return map[string][]Record {
+	return map[string][]Record{
 		"symbol": {
 			{
 				Date:  time.Now().Format("2006-01-02"),

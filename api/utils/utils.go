@@ -7,7 +7,6 @@ import (
 	"net/url"
 )
 
-
 func createRequest(params map[string]string, headers map[string]string, baseUrl string) (*http.Request, error) {
 	parameters := url.Values{}
 

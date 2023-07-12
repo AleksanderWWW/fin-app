@@ -37,8 +37,8 @@ func (s StooqDataReader) getParams(symbol string) map[string]string {
 func (s StooqDataReader) readSingle(symbol string) ([]Record, error) {
 	params := s.getParams(symbol)
 	data, err := utils.GetResponse(params, DefaultHeaders, stooqBaseUrl)
-	
-	if err != nil{
+
+	if err != nil {
 		return []Record{}, err
 	}
 
@@ -62,8 +62,8 @@ func (s StooqDataReader) readSingle(symbol string) ([]Record, error) {
 			continue
 		}
 		record := Record{
-			Date: dataSlice[0],
-			Open: float32(open),
+			Date:  dataSlice[0],
+			Open:  float32(open),
 			Close: float32(close),
 		}
 		records = append(records, record)
@@ -91,32 +91,31 @@ func (s StooqDataReader) FetchData() (map[string][]Record, error) {
 	return fetchedDataMap, err
 }
 
-
 func NewStooqReader(initArgsMap map[string]interface{}) (*StooqDataReader, error) {
 	symbols, ok := initArgsMap["symbols"].([]interface{})
-		if !ok {
-			return nil, fmt.Errorf("Missing or malformed param: 'symbols'")
-		}
+	if !ok {
+		return nil, fmt.Errorf("Missing or malformed param: 'symbols'")
+	}
 
-		startDate, ok := initArgsMap["startDate"].(string)
-		if !ok {
-			return nil, fmt.Errorf("Missing or malformed param: 'startDate'")
-		}
+	startDate, ok := initArgsMap["startDate"].(string)
+	if !ok {
+		return nil, fmt.Errorf("Missing or malformed param: 'startDate'")
+	}
 
-		endDate, ok := initArgsMap["endDate"].(string)
-		if !ok {
-			return nil, fmt.Errorf("Missing or malformed param: 'endDate'")
-		}
-		freq, ok := initArgsMap["freq"].(string)
+	endDate, ok := initArgsMap["endDate"].(string)
+	if !ok {
+		return nil, fmt.Errorf("Missing or malformed param: 'endDate'")
+	}
+	freq, ok := initArgsMap["freq"].(string)
 
-		if !ok {
-			freq = "d"
-		}
+	if !ok {
+		freq = "d"
+	}
 
-		return &StooqDataReader{
-			symbols: symbols,
-			startDate: startDate,
-			endDate: endDate,
-			freq: freq,
-		}, nil
+	return &StooqDataReader{
+		symbols:   symbols,
+		startDate: startDate,
+		endDate:   endDate,
+		freq:      freq,
+	}, nil
 }
