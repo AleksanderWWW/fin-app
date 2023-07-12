@@ -19,6 +19,8 @@ func loggingMiddleware(next http.Handler) http.Handler {
 }
 
 func main() {
+    // -------------------------------------------------------------------------
+	// Get cli options
 	listenAddr := flag.String("listenaddr", ":5555", "api port to listen on")
 	wait := flag.Duration(
 		"graceful-timeout",
@@ -28,6 +30,8 @@ func main() {
 
 	flag.Parse()
 
+    // -------------------------------------------------------------------------
+	// Configure router
 	r := mux.NewRouter().StrictSlash(true)
 	r.Use(mux.CORSMethodMiddleware(r))
 	r.Use(loggingMiddleware)
@@ -35,6 +39,8 @@ func main() {
 
 	apiV1Router.HandleFunc("/{provider}", app.HandleRequest).Methods(http.MethodPost)
 
+    // -------------------------------------------------------------------------
+	// Configure server
 	srv := &http.Server{
 		Addr: *listenAddr,
 		// Good practice to set timeouts to avoid Slowloris attacks.
@@ -44,13 +50,16 @@ func main() {
 		Handler:      r, // Pass our instance of gorilla/mux in.
 	}
 
+    // -------------------------------------------------------------------------
 	// Run our server in a goroutine so that it doesn't block.
 	go func() {
 		if err := srv.ListenAndServe(); err != nil {
 			log.Println(err)
 		}
 	}()
-
+    
+    // -------------------------------------------------------------------------
+	// Wait for shutdown signal
 	c := make(chan os.Signal, 1)
 	// We'll accept graceful shutdowns when quit via SIGINT (Ctrl+C)
 	// SIGKILL, SIGQUIT or SIGTERM (Ctrl+/) will not be caught.
