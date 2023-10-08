@@ -30,15 +30,15 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 
 	reader, err := core.GetReaderFromProviderString(provider, initArgs)
 
-	// -------------------------------------------------------------------------
-	// Prepare response encoder
-	encoder := json.NewEncoder(w)
-	encoder.SetIndent("", "    ") // Indentation of 4 spaces
-
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	// -------------------------------------------------------------------------
+	// Prepare response encoder
+	encoder := json.NewEncoder(w)
+	encoder.SetIndent("", "    ") // Indentation of 4 spaces
 
 	// -------------------------------------------------------------------------
 	// Fetch financial data

@@ -9,7 +9,7 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/AleksanderWWW/fin-app/app"
+	"github.com/AleksanderWWW/fin-app/api"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
